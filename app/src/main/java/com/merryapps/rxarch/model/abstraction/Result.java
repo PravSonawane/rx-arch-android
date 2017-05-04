@@ -9,7 +9,11 @@ package com.merryapps.rxarch.model.abstraction;
  * @author Pravin Sonawane
  * @since 0.0.1
  */
-public interface Result<T> {
+public interface Result<T,R> {
 
-  T getData();
+  T data();
+
+  R state();
+
+  Throwable error();
 }

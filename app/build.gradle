@@ -37,6 +37,9 @@ dependencies {
   compile 'com.android.support:appcompat-v7:25.3.1'
   compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
+  //support library
+  compile 'com.android.support:recyclerview-v7:25.3.1'
+
   //rxjava2
   // https://mvnrepository.com/artifact/io.reactivex.rxjava2/rxjava
   compile group: 'io.reactivex.rxjava2', name: 'rxjava', version: '2.1.0'
@@ -59,9 +62,9 @@ dependencies {
   // https://mvnrepository.com/artifact/com.google.dagger/dagger-compiler
   annotationProcessor group: 'com.google.dagger', name: 'dagger-compiler', version: '2.10'
 
-
-
-
+  //rxbinding
+  compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+  compile 'com.jakewharton.rxbinding2:rxbinding-recyclerview-v7:2.0.0'
 
   testCompile 'junit:junit:4.12'
 }

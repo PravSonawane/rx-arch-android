@@ -12,8 +12,7 @@ public interface ServiceMapper<T,R> {
   /**
    * Creates a transformer that maps from UiType to Model type.
    * //TODO check this description
-   * @param type
    * @return
    */
-  ObservableTransformer<T,R> createTransformer(T type);
+  ObservableTransformer<T,R> createTransformer();
 }

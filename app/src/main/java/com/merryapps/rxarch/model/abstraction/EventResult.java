@@ -10,7 +10,11 @@ package com.merryapps.rxarch.model.abstraction;
  * @author Pravin Sonawane
  * @since 0.0.1
  */
-public interface EventResult<T> {
+public interface EventResult<T,R> {
 
-  T getData();
+  T data();
+
+  R state();
+
+  Throwable error();
 }

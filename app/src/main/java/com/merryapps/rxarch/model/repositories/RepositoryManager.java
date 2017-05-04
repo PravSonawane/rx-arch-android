@@ -2,6 +2,8 @@ package com.merryapps.rxarch.model.repositories;
 
 import android.support.annotation.NonNull;
 import io.reactivex.Observable;
+import io.reactivex.schedulers.Schedulers;
+import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -28,9 +30,18 @@ public class RepositoryManager {
    * Get all public repositories.
    * @return an {@link Observable} stream of {@link List<Repository>}
    */
-  @NonNull
+  @SuppressWarnings("Convert2streamapi") @NonNull
   public Observable<List<Repository>> getRepositories() {
     //TODO implement conversion and schedule on IO, retry, cache, pagination here
-    return null;
+    return retrofit.create(GithubRepositoryApi.class)
+        .getRepositories()
+        .map(repositoryInternals -> {
+          List<Repository> repositories = new ArrayList<>(repositoryInternals.size());
+          for (RepositoryInternal i : repositoryInternals) {
+            repositories.add(new Repository(i));
+          }
+          return repositories;
+        })
+        .subscribeOn(Schedulers.io());
   }
 }

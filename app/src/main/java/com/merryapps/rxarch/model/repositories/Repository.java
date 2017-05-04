@@ -8,4 +8,16 @@ package com.merryapps.rxarch.model.repositories;
 public class Repository {
 
   private RepositoryInternal repositoryInternal;
+
+  Repository(RepositoryInternal repositoryInternal) {
+    this.repositoryInternal = repositoryInternal;
+  }
+
+  RepositoryInternal getRepositoryInternal() {
+    return repositoryInternal;
+  }
+
+  public String getName() {
+    return repositoryInternal.getFullName();
+  }
 }
