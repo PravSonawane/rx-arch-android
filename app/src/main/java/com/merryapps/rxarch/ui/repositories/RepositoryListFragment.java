@@ -44,6 +44,7 @@ public class RepositoryListFragment extends Fragment {
     return parentView;
   }
 
+  //TODO move this logic out of fragment later
   void loadData() {
     Observable<LoadEvent> loadEvent = Observable.just(new LoadEvent());
 
@@ -80,8 +81,7 @@ public class RepositoryListFragment extends Fragment {
               throw new AssertionError("Unknown state:" + repositoryListUiModel.state());
           }
         });
-    //TODO implement this
-    //TODO move this logic out of fragment later
+
   }
 
   private void initViews(View parentView) {

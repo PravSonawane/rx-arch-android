@@ -26,7 +26,7 @@ public class RepositoryListServiceMapper implements ServiceMapper<LoadAction,
 
     return actions -> actions.flatMap(action -> repositoryManager.getRepositories())
         .map(repositories -> RepositoryListResult.create(repositories, SUCCESSFUL))
-        .onErrorReturn(throwable -> RepositoryListResult.createOnError(throwable))
+        .onErrorReturn(RepositoryListResult::createOnError)
         .observeOn(AndroidSchedulers.mainThread())
         .startWith(RepositoryListResult.createOnProgress());
   }
