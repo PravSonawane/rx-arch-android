@@ -1,6 +1,7 @@
 package com.merryapps.rxarch.ui.repositories;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,9 +16,9 @@ import com.merryapps.rxarch.model.repositories.RepositoryManager;
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
 import java.util.ArrayList;
-
-import static com.merryapps.rxarch.ui.repositories.RepositoryListUiModel.State.SUCCESSFUL;
+import java.util.Collections;
 
 /**
  * A fragment that backs up the repository list UI.
@@ -50,38 +51,51 @@ public class RepositoryListFragment extends Fragment {
 
     ObservableTransformer<LoadAction, RepositoryListResult> results =
         new RepositoryListServiceMapper(
-            new RepositoryManager()).createTransformer();
-    Observable<RepositoryListUiModel> uiModel = loadEvent.map(event -> new LoadAction()).compose(results)
-        .scan(RepositoryListUiModel.createOnProgress(), (ignored,result) -> {
+            new RepositoryManager()).transformToResult();
+    Observable<RepositoryListUiModel> uiModel = uiEventToUiModel(loadEvent, results);
+
+      uiModel.subscribe(updateUi());
+
+  }
+
+  @NonNull private Consumer<RepositoryListUiModel> updateUi() {
+    return repositoryListUiModel -> {
+        switch (repositoryListUiModel.state()) {
+          case IDLE: {
+            Log.d(TAG, "loadData: idle");
+            break;
+          }
+          case IN_PROGRESS: {
+            Log.d(TAG, "loadData: in progress");
+            break;
+          }
+          case SUCCESSFUL: {
+            Log.d(TAG, "loadData: successful");
+            repositoryAdapter.updateRepositories(repositoryListUiModel.data());
+            break;
+          }
+          case FAILED: {
+            Log.d(TAG, "loadData: got an error" + repositoryListUiModel.error());
+            break;
+          }
+          default:
+            throw new AssertionError("Unknown state:" + repositoryListUiModel.state());
+        }
+      };
+  }
+
+  private Observable<RepositoryListUiModel> uiEventToUiModel(Observable<LoadEvent> loadEvent,
+      ObservableTransformer<LoadAction, RepositoryListResult> results) {
+    return loadEvent.map(event -> new LoadAction()).compose(results)
+        .scan(RepositoryListUiModel.createIdle(Collections.emptyList()), (ignored,result) -> {
           switch(result.state()) {
-            case IN_PROGRESS: return RepositoryListUiModel.createOnProgress();
-            case SUCCESSFUL: return RepositoryListUiModel.create(result.data(), SUCCESSFUL);
-            case FAILED: return RepositoryListUiModel.createOnError(result.error());
+            case IN_PROGRESS: return RepositoryListUiModel.createInProgress();
+            case SUCCESSFUL: return RepositoryListUiModel.createSuccessful(result.data());
+            case FAILED: return RepositoryListUiModel.createError(result.error());
             default: throw new AssertionError("Unknown state:" + result.state());
           }
         })
         .observeOn(AndroidSchedulers.mainThread());
-
-      uiModel.subscribe(repositoryListUiModel -> {
-          switch (repositoryListUiModel.state()) {
-            case SUCCESSFUL: {
-              Log.d(TAG, "loadData: successful");
-              repositoryAdapter.updateRepositories(repositoryListUiModel.data());
-              break;
-            }
-            case FAILED: {
-              Log.d(TAG, "loadData: got an error" + repositoryListUiModel.error());
-              break;
-            }
-            case IN_PROGRESS: {
-              Log.d(TAG, "loadData: in progress");
-              break;
-            }
-            default:
-              throw new AssertionError("Unknown state:" + repositoryListUiModel.state());
-          }
-        });
-
   }
 
   private void initViews(View parentView) {

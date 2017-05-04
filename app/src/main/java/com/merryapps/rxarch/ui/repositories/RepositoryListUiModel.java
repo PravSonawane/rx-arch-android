@@ -1,19 +1,21 @@
 package com.merryapps.rxarch.ui.repositories;
 
-import com.merryapps.rxarch.model.abstraction.EventResult;
+import com.merryapps.rxarch.model.abstraction.Result;
 import com.merryapps.rxarch.model.repositories.Repository;
 import java.util.Collections;
 import java.util.List;
 
 import static com.merryapps.rxarch.ui.repositories.RepositoryListUiModel.State.FAILED;
+import static com.merryapps.rxarch.ui.repositories.RepositoryListUiModel.State.IDLE;
 import static com.merryapps.rxarch.ui.repositories.RepositoryListUiModel.State.IN_PROGRESS;
+import static com.merryapps.rxarch.ui.repositories.RepositoryListUiModel.State.SUCCESSFUL;
 
 /**
  * Models the UI showing a list of {@link Repository}
  * @author Pravin Sonawane
  * @since 0.0.1
  */
-public class RepositoryListUiModel implements EventResult<List<Repository>,RepositoryListUiModel.State> {
+public class RepositoryListUiModel implements Result<List<Repository>,RepositoryListUiModel.State> {
 
   private final List<Repository> repositories;
   private final State state;
@@ -43,19 +45,25 @@ public class RepositoryListUiModel implements EventResult<List<Repository>,Repos
     return error;
   }
 
-  static RepositoryListUiModel create(List<Repository> repositories, State state) {
-    return new RepositoryListUiModel(repositories,state);
+
+  static RepositoryListUiModel createSuccessful(List<Repository> repositories) {
+    return new RepositoryListUiModel(repositories, SUCCESSFUL);
   }
 
-  static RepositoryListUiModel createOnError(Throwable throwable) {
-    return new RepositoryListUiModel(FAILED, throwable);
-  }
-
-  static RepositoryListUiModel createOnProgress() {
+  static RepositoryListUiModel createInProgress() {
     return new RepositoryListUiModel(IN_PROGRESS, null);
   }
 
+  static RepositoryListUiModel createError(Throwable throwable) {
+    return new RepositoryListUiModel(FAILED, throwable);
+  }
+
+  static RepositoryListUiModel createIdle(List<Repository> repositories) {
+    return new RepositoryListUiModel(repositories, IDLE);
+  }
+
   public static enum State {
+    IDLE,
     IN_PROGRESS,
     SUCCESSFUL,
     FAILED

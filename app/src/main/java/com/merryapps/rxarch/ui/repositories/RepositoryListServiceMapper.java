@@ -2,7 +2,7 @@ package com.merryapps.rxarch.ui.repositories;
 
 import com.merryapps.rxarch.model.repositories.RepositoryListResult;
 import com.merryapps.rxarch.model.repositories.RepositoryManager;
-import com.merryapps.rxarch.ui.abstraction.ServiceMapper;
+import com.merryapps.rxarch.model.abstraction.ServiceMapper;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 
@@ -22,7 +22,7 @@ public class RepositoryListServiceMapper implements ServiceMapper<LoadAction,
   }
 
   @Override
-  public ObservableTransformer<LoadAction, RepositoryListResult> createTransformer() {
+  public ObservableTransformer<LoadAction, RepositoryListResult> transformToResult() {
 
     return actions -> actions.flatMap(action -> repositoryManager.getRepositories())
         .map(repositories -> RepositoryListResult.create(repositories, SUCCESSFUL))

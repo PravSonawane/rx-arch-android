@@ -11,7 +11,7 @@ import com.merryapps.rxarch.model.abstraction.Action;
 
 public class LoadAction implements Action<Object> {
 
-  @Override public Object getData() {
+  @Override public Object data() {
     return new Object();
   }
 }

@@ -1,6 +1,6 @@
 package com.merryapps.rxarch.ui.repositories;
 
-import com.merryapps.rxarch.model.abstraction.Event;
+import com.merryapps.rxarch.model.abstraction.Action;
 
 /**
  * //TODO add description here
@@ -9,9 +9,9 @@ import com.merryapps.rxarch.model.abstraction.Event;
  * @since v1.0.0
  */
 
-public class LoadEvent implements Event<Object> {
+public class LoadEvent implements Action<Object> {
 
-  @Override public Object getData() {
+  @Override public Object data() {
     return new Object(); //TODO should create proper type
   }
 }
