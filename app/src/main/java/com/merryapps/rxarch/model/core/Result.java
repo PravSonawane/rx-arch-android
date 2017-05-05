@@ -1,4 +1,4 @@
-package com.merryapps.rxarch.model.abstraction;
+package com.merryapps.rxarch.model.core;
 
 /**
  * Encapsulates the result of an {@link Action}. The result contains the data that got
@@ -9,11 +9,11 @@ package com.merryapps.rxarch.model.abstraction;
  * @author Pravin Sonawane
  * @since 0.0.1
  */
-public interface Result<T,R> {
+public interface Result<TData,TState> {
 
-  T data();
+  TData data();
 
-  R state();
+  TState state();
 
   Throwable error();
 }

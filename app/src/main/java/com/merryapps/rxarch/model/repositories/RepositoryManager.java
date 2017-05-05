@@ -2,12 +2,15 @@ package com.merryapps.rxarch.model.repositories;
 
 import android.support.annotation.NonNull;
 import io.reactivex.Observable;
+import io.reactivex.ObservableTransformer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
-import java.util.ArrayList;
 import java.util.List;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static com.merryapps.rxarch.model.repositories.RepositoryListResult.State.SUCCESSFUL;
 
 /**
  * {@link Repository} manager for https://github.com
@@ -20,10 +23,20 @@ public class RepositoryManager {
   private final Retrofit retrofit;
 
   public RepositoryManager() {
+    GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create();
     retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(gsonConverterFactory)
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build();
+  }
+
+  public ObservableTransformer<LoadAction, RepositoryListResult> transformToResult() {
+
+    return actions -> actions.flatMap(action -> getRepositories())
+        .map(repositories -> RepositoryListResult.create(repositories, SUCCESSFUL))
+        .onErrorReturn(RepositoryListResult::createOnError)
+        .observeOn(AndroidSchedulers.mainThread())
+        .startWith(RepositoryListResult.createOnProgress());
   }
 
   /**
@@ -31,17 +44,14 @@ public class RepositoryManager {
    * @return an {@link Observable} stream of {@link List<Repository>}
    */
   @SuppressWarnings("Convert2streamapi") @NonNull
-  public Observable<List<Repository>> getRepositories() {
+  private Observable<List<Repository>> getRepositories() {
     //TODO implement conversion and schedule on IO, retry, cache, pagination here
     return retrofit.create(GithubRepositoryApi.class)
         .getRepositories()
-        .map(repositoryInternals -> {
-          List<Repository> repositories = new ArrayList<>(repositoryInternals.size());
-          for (RepositoryInternal i : repositoryInternals) {
-            repositories.add(new Repository(i));
-          }
-          return repositories;
-        })
+        .flatMapIterable(list -> list)
+        .map(Repository::new)
+        .toList()
+        .toObservable()
         .subscribeOn(Schedulers.io());
   }
 }

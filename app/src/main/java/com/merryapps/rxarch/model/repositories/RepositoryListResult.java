@@ -1,6 +1,6 @@
 package com.merryapps.rxarch.model.repositories;
 
-import com.merryapps.rxarch.model.abstraction.Result;
+import com.merryapps.rxarch.model.core.Result;
 import java.util.Collections;
 import java.util.List;
 

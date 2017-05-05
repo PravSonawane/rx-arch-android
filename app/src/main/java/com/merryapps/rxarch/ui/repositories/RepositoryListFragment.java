@@ -11,13 +11,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.merryapps.rxarch.R;
+import com.merryapps.rxarch.model.repositories.LoadAction;
 import com.merryapps.rxarch.model.repositories.RepositoryListResult;
 import com.merryapps.rxarch.model.repositories.RepositoryManager;
 import io.reactivex.Observable;
 import io.reactivex.ObservableTransformer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
-import java.util.ArrayList;
 import java.util.Collections;
 
 /**
@@ -42,6 +42,7 @@ public class RepositoryListFragment extends Fragment {
     initViews(parentView);
 
     loadData();
+
     return parentView;
   }
 
@@ -50,12 +51,10 @@ public class RepositoryListFragment extends Fragment {
     Observable<LoadEvent> loadEvent = Observable.just(new LoadEvent());
 
     ObservableTransformer<LoadAction, RepositoryListResult> results =
-        new RepositoryListServiceMapper(
-            new RepositoryManager()).transformToResult();
+        new RepositoryManager().transformToResult();
     Observable<RepositoryListUiModel> uiModel = uiEventToUiModel(loadEvent, results);
 
-      uiModel.subscribe(updateUi());
-
+    uiModel.subscribe(updateUi());
   }
 
   @NonNull private Consumer<RepositoryListUiModel> updateUi() {
@@ -102,9 +101,7 @@ public class RepositoryListFragment extends Fragment {
     repositoryRcyclerView =
         (RecyclerView) parentView.findViewById(R.id.all_repositories_rcyclrVw_id);
     repositoryRcyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-    //TODO does it require a immutable list? Can Collections.emptyList() work here?
-    repositoryAdapter = new RepositoryAdapter(new ArrayList<>());
+    repositoryAdapter = new RepositoryAdapter(Collections.emptyList());
     repositoryRcyclerView.setAdapter(repositoryAdapter);
-
   }
 }

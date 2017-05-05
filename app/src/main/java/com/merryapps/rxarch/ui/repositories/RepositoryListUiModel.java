@@ -1,6 +1,6 @@
 package com.merryapps.rxarch.ui.repositories;
 
-import com.merryapps.rxarch.model.abstraction.Result;
+import com.merryapps.rxarch.model.core.Result;
 import com.merryapps.rxarch.model.repositories.Repository;
 import java.util.Collections;
 import java.util.List;
@@ -21,13 +21,13 @@ public class RepositoryListUiModel implements Result<List<Repository>,Repository
   private final State state;
   private final Throwable error;
 
-  RepositoryListUiModel(List<Repository> repositories, State state) {
+  private RepositoryListUiModel(List<Repository> repositories, State state) {
     this.repositories = repositories;
     this.state = state;
     this.error = null;
   }
 
-  RepositoryListUiModel(State state, Throwable error) {
+  private RepositoryListUiModel(State state, Throwable error) {
     this.repositories = Collections.emptyList();
     this.state = state;
     this.error = error;

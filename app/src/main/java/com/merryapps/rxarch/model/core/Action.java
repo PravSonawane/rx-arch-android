@@ -1,4 +1,4 @@
-package com.merryapps.rxarch.model.abstraction;
+package com.merryapps.rxarch.model.core;
 
 /**
  * An action is an intent by the UI, device and/or the network to get, update, modify or delete

@@ -1,4 +1,4 @@
-package com.merryapps.rxarch.model.abstraction;
+package com.merryapps.rxarch.model.core;
 
 import io.reactivex.ObservableTransformer;
 

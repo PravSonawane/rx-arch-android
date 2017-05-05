@@ -1,6 +1,6 @@
-package com.merryapps.rxarch.ui.repositories;
+package com.merryapps.rxarch.model.repositories;
 
-import com.merryapps.rxarch.model.abstraction.Action;
+import com.merryapps.rxarch.model.core.Action;
 
 /**
  * //TODO add description here

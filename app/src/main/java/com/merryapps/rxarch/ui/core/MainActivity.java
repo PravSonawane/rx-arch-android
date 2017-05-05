@@ -1,4 +1,4 @@
-package com.merryapps.rxarch.ui.home;
+package com.merryapps.rxarch.ui.core;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
