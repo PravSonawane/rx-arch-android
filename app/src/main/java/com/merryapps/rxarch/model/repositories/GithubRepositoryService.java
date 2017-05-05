@@ -10,7 +10,7 @@ import retrofit2.http.GET;
  * @author Pravin Sonawane
  * @since 0.0.1
  */
-interface GithubRepositoryApi {
+interface GithubRepositoryService {
 
   /** Fetch all repositories on Github. //TODO handle pagination **/
   @GET("/repositories")

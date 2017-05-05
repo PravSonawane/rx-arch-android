@@ -1,4 +1,4 @@
-package com.merryapps.rxarch.model.repositories;
+package com.merryapps.rxarch.ui.repositories;
 
 import com.merryapps.rxarch.model.core.Action;
 
@@ -9,9 +9,9 @@ import com.merryapps.rxarch.model.core.Action;
  * @since v1.0.0
  */
 
-public class LoadAction implements Action<Object> {
+class GetRepositoriesUiAction implements Action<Object> {
 
   @Override public Object data() {
-    return new Object();
+    return new Object(); //TODO should create proper type
   }
 }

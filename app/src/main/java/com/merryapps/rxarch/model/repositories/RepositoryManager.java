@@ -30,7 +30,7 @@ public class RepositoryManager {
         .build();
   }
 
-  public ObservableTransformer<LoadAction, RepositoryListResult> transformToResult() {
+  public ObservableTransformer<GetRepositoriesAction, RepositoryListResult> repositories() {
 
     return actions -> actions.flatMap(action -> getRepositories())
         .map(repositories -> RepositoryListResult.create(repositories, SUCCESSFUL))
@@ -46,7 +46,7 @@ public class RepositoryManager {
   @SuppressWarnings("Convert2streamapi") @NonNull
   private Observable<List<Repository>> getRepositories() {
     //TODO implement conversion and schedule on IO, retry, cache, pagination here
-    return retrofit.create(GithubRepositoryApi.class)
+    return retrofit.create(GithubRepositoryService.class)
         .getRepositories()
         .flatMapIterable(list -> list)
         .map(Repository::new)

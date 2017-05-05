@@ -1,11 +1,12 @@
 package com.merryapps.rxarch.model.core;
 
 /**
- * An action is an intent by the UI, device and/or the network to get, update, modify or delete
+ * An action is an intent by the UI, device hardware, network, etc. to get, update, modify or delete
  * data.
  *
  * <p>
- *   Actions encapsulate the data that is required to be acted upon.
+ * Actions encapsulate the data that is associated with the action. This data can be obtained by
+ * using the action's {@link #data()} method.
  * </p>
  * <p>
  * Actions are responded by {@link Result}s.
