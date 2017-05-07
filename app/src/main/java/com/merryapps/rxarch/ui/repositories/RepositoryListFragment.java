@@ -11,7 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.merryapps.rxarch.R;
-import com.merryapps.rxarch.model.repositories.GetRepositoriesAction;
+import com.merryapps.rxarch.model.repositories.RepositorySearchAction;
 import com.merryapps.rxarch.model.repositories.RepositoryManager;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -43,8 +43,13 @@ public class RepositoryListFragment extends Fragment {
     initVariables();
 
     loadData();
+    //test();
 
     return parentView;
+  }
+
+  private void test() {
+    new RepositoryManager().retrofitCall("retrofit");
   }
 
   private void initVariables() {
@@ -55,7 +60,7 @@ public class RepositoryListFragment extends Fragment {
   void loadData() {
 
     Observable.just(new GetRepositoriesUiAction())
-        .map(event -> new GetRepositoriesAction())
+        .map(event -> new RepositorySearchAction("retrofit"))
         .compose(repositoryManager.repositories())
         .scan(RepositoryListUiResult.createIdle(Collections.emptyList()), (ignored, result) -> {
           switch (result.state()) {

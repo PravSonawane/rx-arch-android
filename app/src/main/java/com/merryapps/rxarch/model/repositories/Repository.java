@@ -7,17 +7,17 @@ package com.merryapps.rxarch.model.repositories;
  */
 public class Repository {
 
-  private RepositoryInternal repositoryInternal;
+  private RepositoryItemInternal repositoryItemInternal;
 
-  Repository(RepositoryInternal repositoryInternal) {
-    this.repositoryInternal = repositoryInternal;
+  Repository(RepositoryItemInternal repositoryItemInternal) {
+    this.repositoryItemInternal = repositoryItemInternal;
   }
 
-  RepositoryInternal getRepositoryInternal() {
-    return repositoryInternal;
+  RepositoryItemInternal getRepositoryItemInternal() {
+    return repositoryItemInternal;
   }
 
   public String getName() {
-    return repositoryInternal.getFullName();
+    return repositoryItemInternal.getFullName();
   }
 }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import static com.merryapps.rxarch.model.repositories.RepositoryListResult.State.FAILED;
 import static com.merryapps.rxarch.model.repositories.RepositoryListResult.State.IN_PROGRESS;
+import static com.merryapps.rxarch.model.repositories.RepositoryListResult.State.SUCCESSFUL;
 
 /**
  * @author Pravin Sonawane
@@ -36,15 +37,19 @@ public class RepositoryListResult implements Result<List<Repository>,RepositoryL
     return error;
   }
 
-  public static RepositoryListResult create(List<Repository> repositories, State state) {
+  static RepositoryListResult create(List<Repository> repositories, State state) {
     return new RepositoryListResult(repositories, state, null);
   }
 
-  public static RepositoryListResult createOnProgress() {
+  static RepositoryListResult createOnSuccess(List<Repository> repositories) {
+    return new RepositoryListResult(repositories, SUCCESSFUL, null);
+  }
+
+  static RepositoryListResult createOnProgress() {
     return new RepositoryListResult(Collections.emptyList(), IN_PROGRESS, null);
   }
 
-  public static RepositoryListResult createOnError(Throwable throwable) {
+  static RepositoryListResult createOnError(Throwable throwable) {
     return new RepositoryListResult(Collections.emptyList(), FAILED, throwable);
   }
 
