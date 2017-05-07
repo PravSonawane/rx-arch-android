@@ -49,7 +49,7 @@ public class RepositoryListFragment extends Fragment {
   }
 
   private void test() {
-    new RepositoryManager().retrofitCall("retrofit");
+    new RepositoryManager().networkResult("retrofit");
   }
 
   private void initVariables() {

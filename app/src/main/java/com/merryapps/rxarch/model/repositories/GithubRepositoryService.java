@@ -12,7 +12,7 @@ import retrofit2.http.Query;
  */
 interface GithubRepositoryService {
 
-  /** Fetch all repositories on Github. //TODO handle pagination **/
+  /** Search repositories on Github. **/
   @GET("/search/repositories")
   Observable<SearchResponse> searchRepositories(@Query("q")String searchTerm);
 

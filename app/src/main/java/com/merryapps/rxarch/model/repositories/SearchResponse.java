@@ -26,18 +26,8 @@ class SearchResponse {
     return searchResponseRaw;
   }
 
-  public RateLimitErrorRaw getRateLimitErrorRaw() {
+  RateLimitErrorRaw getRateLimitErrorRaw() {
     return rateLimitErrorRaw;
-  }
-
-  //TODO remove toString later
-  @Override public String toString() {
-    return "SearchResponse{"
-        + "searchResponseRaw="
-        + searchResponseRaw
-        + ", rateLimitErrorRaw="
-        + rateLimitErrorRaw
-        + '}';
   }
 
   private static <T> T throwIae(String argName) {
