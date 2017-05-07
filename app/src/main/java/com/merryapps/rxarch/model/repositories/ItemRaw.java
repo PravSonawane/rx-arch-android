@@ -7,12 +7,12 @@ import com.google.gson.annotations.SerializedName;
  * @author Pravin Sonawane
  * @since 0.0.1
  */
-class RepositoryItemInternal {
+class ItemRaw {
 
   @SerializedName("id") @Expose private Integer id;
   @SerializedName("name") @Expose private String name;
   @SerializedName("full_name") @Expose private String fullName;
-  @SerializedName("owner") @Expose private OwnerInternal ownerInternal;
+  @SerializedName("owner") @Expose private OwnerRaw ownerRaw;
   @SerializedName("private") @Expose private Boolean _private;
   @SerializedName("html_url") @Expose private String htmlUrl;
   @SerializedName("description") @Expose private String description;
@@ -104,12 +104,12 @@ class RepositoryItemInternal {
     this.fullName = fullName;
   }
 
-  OwnerInternal getOwnerInternal() {
-    return ownerInternal;
+  OwnerRaw getOwnerRaw() {
+    return ownerRaw;
   }
 
-  void setOwnerInternal(OwnerInternal ownerInternal) {
-    this.ownerInternal = ownerInternal;
+  void setOwnerRaw(OwnerRaw ownerRaw) {
+    this.ownerRaw = ownerRaw;
   }
 
   Boolean getPrivate() {
@@ -638,9 +638,5 @@ class RepositoryItemInternal {
 
   void setScore(Double score) {
     this.score = score;
-  }
-
-  @Override public String toString() {
-    return "RepositoryItemInternal{" + "fullName='" + fullName + '\'' + '}';
   }
 }

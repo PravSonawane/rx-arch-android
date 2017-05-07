@@ -5,7 +5,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 /**
- * An API for {@link RepositoryItemInternal} on https://github.com
+ * An API for {@link ItemRaw} on https://github.com
  * //TODO add javaDoc on usage
  * @author Pravin Sonawane
  * @since 0.0.1

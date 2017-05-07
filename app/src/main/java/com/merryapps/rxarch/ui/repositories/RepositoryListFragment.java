@@ -64,9 +64,9 @@ public class RepositoryListFragment extends Fragment {
         .compose(repositoryManager.repositories())
         .scan(RepositoryListUiResult.createIdle(Collections.emptyList()), (ignored, result) -> {
           switch (result.state()) {
-            case IN_PROGRESS: return RepositoryListUiResult.createInProgress();
-            case SUCCESSFUL:  return RepositoryListUiResult.createSuccessful(result.data());
-            case FAILED:      return RepositoryListUiResult.createError(result.error());
+            case IN_PROGRESS: return RepositoryListUiResult.onInProgress();
+            case SUCCESSFUL:  return RepositoryListUiResult.onSuccess(result.data());
+            case FAILED:      return RepositoryListUiResult.onError(result.error());
             default:          throw new AssertionError("Unknown state:" + result.state());
           }
         })

@@ -45,19 +45,19 @@ public class RepositorySearchResult implements Result<List<Repository>,Repositor
     return this.rateLimitError;
   }
 
-  static RepositorySearchResult createOnSuccess(List<Repository> repositories) {
+  static RepositorySearchResult onSuccess(List<Repository> repositories) {
     return new RepositorySearchResult(repositories, SUCCESSFUL, null, null);
   }
 
-  static RepositorySearchResult createOnProgress() {
+  static RepositorySearchResult onInProgress() {
     return new RepositorySearchResult(Collections.emptyList(), IN_PROGRESS, null, null);
   }
 
-  static RepositorySearchResult createOnError(Throwable throwable) {
+  static RepositorySearchResult onError(Throwable throwable) {
     return new RepositorySearchResult(Collections.emptyList(), FAILED, null, throwable);
   }
 
-  static RepositorySearchResult createOnRateLimitError(String message, String url) {
+  static RepositorySearchResult onRateLimitError(String message, String url) {
     RateLimitError error = new RateLimitError(message, url);
     return new RepositorySearchResult(Collections.emptyList(), RATE_LIMIT_ERROR, error, null);
   }

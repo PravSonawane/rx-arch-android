@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 /**
  * Created by m727708 on 5/3/17.
  */
-class OwnerInternal {
+class OwnerRaw {
 
   @SerializedName("login") @Expose private String login;
   @SerializedName("id") @Expose private Integer id;

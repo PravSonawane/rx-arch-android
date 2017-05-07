@@ -15,7 +15,7 @@ import static com.merryapps.rxarch.ui.repositories.RepositoryListUiResult.State.
  * @author Pravin Sonawane
  * @since 0.0.1
  */
-public class RepositoryListUiResult implements Result<List<Repository>,RepositoryListUiResult.State> {
+class RepositoryListUiResult implements Result<List<Repository>,RepositoryListUiResult.State> {
 
   private final List<Repository> repositories;
   private final State state;
@@ -46,15 +46,15 @@ public class RepositoryListUiResult implements Result<List<Repository>,Repositor
   }
 
 
-  static RepositoryListUiResult createSuccessful(List<Repository> repositories) {
+  static RepositoryListUiResult onSuccess(List<Repository> repositories) {
     return new RepositoryListUiResult(repositories, SUCCESSFUL);
   }
 
-  static RepositoryListUiResult createInProgress() {
+  static RepositoryListUiResult onInProgress() {
     return new RepositoryListUiResult(IN_PROGRESS, null);
   }
 
-  static RepositoryListUiResult createError(Throwable throwable) {
+  static RepositoryListUiResult onError(Throwable throwable) {
     return new RepositoryListUiResult(FAILED, throwable);
   }
 
@@ -62,7 +62,7 @@ public class RepositoryListUiResult implements Result<List<Repository>,Repositor
     return new RepositoryListUiResult(repositories, IDLE);
   }
 
-  public static enum State {
+  public enum State {
     IDLE,
     IN_PROGRESS,
     SUCCESSFUL,

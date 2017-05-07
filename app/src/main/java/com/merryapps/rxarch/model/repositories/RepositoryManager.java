@@ -25,24 +25,22 @@ public class RepositoryManager {
   private final Retrofit retrofit;
 
   public RepositoryManager() {
-    GsonConverterFactory gsonConverterFactory = GsonConverterFactory.create();
     retrofit = new Retrofit.Builder().baseUrl(BASE_URL)
-        .addConverterFactory(gsonConverterFactory)
+        .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(new RepositorySearchResponseAdapterFactory())
         .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .build();
   }
 
   public ObservableTransformer<RepositorySearchAction, RepositoryListResult> repositories() {
-
     return actions -> actions
         .flatMap(action -> repositorySearchResult(action.data()))
-        .scan(RepositoryListResult.createOnProgress(), (ignored, result) -> {
+        .scan(RepositoryListResult.onProgress(), (ignored, result) -> {
           switch (result.state()) {
-            case IN_PROGRESS:     return RepositoryListResult.createOnProgress();
-            case RATE_LIMIT_ERROR:return RepositoryListResult.createOnSuccess(result.data());
-            case SUCCESSFUL:      return RepositoryListResult.createOnSuccess(result.data());
-            case FAILED:          return RepositoryListResult.createOnError(result.error());
+            case IN_PROGRESS:     return RepositoryListResult.onProgress();
+            case RATE_LIMIT_ERROR:return RepositoryListResult.onSuccess(result.data());
+            case SUCCESSFUL:      return RepositoryListResult.onSuccess(result.data());
+            case FAILED:          return RepositoryListResult.onError(result.error());
             default:              throw new AssertionError("Unknown state:" + result.state());
           }
         });
@@ -55,12 +53,12 @@ public class RepositoryManager {
   @SuppressWarnings("Convert2streamapi") @NonNull
   private Observable<RepositorySearchResult> repositorySearchResult(final String searchTerm) {
     return networkResult(searchTerm)
-        .scan(RepositorySearchResult.createOnProgress(), (ignored, result) -> {
+        .scan(RepositorySearchResult.onInProgress(), (ignored, result) -> {
           switch (result.state()) {
             case RETRYING:
-            case IN_PROGRESS: return RepositorySearchResult.createOnProgress();
+            case IN_PROGRESS: return RepositorySearchResult.onInProgress();
             case SUCCESSFUL:  return constructOnSuccess(result);
-            case FAILED:      return RepositorySearchResult.createOnError(result.error());
+            case FAILED:      return RepositorySearchResult.onError(result.error());
             default:          throw new AssertionError("Unknown state:" + result.state());
           }
         });
@@ -69,21 +67,21 @@ public class RepositoryManager {
   public Observable<NetworkResult<SearchResponse>> networkResult(final String searchTerm) {
     return retrofit.create(GithubRepositoryService.class)
         .searchRepositories(searchTerm)
-        .map(NetworkResult::createOnSuccessful)
-        .onErrorReturn(NetworkResult::createOnError)
+        .map(NetworkResult::onSuccess)
+        .onErrorReturn(NetworkResult::onError)
         .subscribeOn(Schedulers.io())
-        .startWith(NetworkResult.createInProgress());
+        .startWith(NetworkResult.onInProgress());
   }
 
   @NonNull private RepositorySearchResult constructOnSuccess(NetworkResult<SearchResponse> result) {
     if (!result.data().isRateLimitError()) {
-      return RepositorySearchResult.createOnSuccess(
+      return RepositorySearchResult.onSuccess(
           convertToRepositoryList(result.data().getSearchResponseRaw()));
     }
     RateLimitErrorRaw error = result.data().getRateLimitErrorRaw();
     String message = error.getMessage();
     String url = error.getDocumentationUrl();
-    return RepositorySearchResult.createOnRateLimitError(message, url);
+    return RepositorySearchResult.onRateLimitError(message, url);
   }
 
   private List<Repository> convertToRepositoryList(SearchResponseRaw response) {
@@ -92,7 +90,7 @@ public class RepositoryManager {
       return Collections.emptyList();
     }
     List<Repository> repositories = new ArrayList<>(response.getItemInternals().size());
-    for (RepositoryItemInternal i : response.getItemInternals()) {
+    for (ItemRaw i : response.getItemInternals()) {
       repositories.add(new Repository(i));
     }
     return repositories;

@@ -12,7 +12,7 @@ class SearchResponseRaw {
 
   @SerializedName("total_count") @Expose private Integer totalCount;
   @SerializedName("incomplete_results") @Expose private Boolean incompleteResults;
-  @SerializedName("items") @Expose private List<RepositoryItemInternal> items = null;
+  @SerializedName("items") @Expose private List<ItemRaw> items = null;
 
 
   Integer getTotalCount() {
@@ -31,12 +31,12 @@ class SearchResponseRaw {
     this.incompleteResults = incompleteResults;
   }
 
-  List<RepositoryItemInternal> getItemInternals() {
+  List<ItemRaw> getItemInternals() {
     return items;
   }
 
-  void setItemInternals(List<RepositoryItemInternal> repositoryItemInternals) {
-    this.items = repositoryItemInternals;
+  void setItemInternals(List<ItemRaw> itemRaws) {
+    this.items = itemRaws;
   }
 
   //TODO remove later

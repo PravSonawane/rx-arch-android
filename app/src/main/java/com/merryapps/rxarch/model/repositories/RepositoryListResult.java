@@ -37,19 +37,15 @@ public class RepositoryListResult implements Result<List<Repository>,RepositoryL
     return error;
   }
 
-  static RepositoryListResult create(List<Repository> repositories, State state) {
-    return new RepositoryListResult(repositories, state, null);
-  }
-
-  static RepositoryListResult createOnSuccess(List<Repository> repositories) {
+  static RepositoryListResult onSuccess(List<Repository> repositories) {
     return new RepositoryListResult(repositories, SUCCESSFUL, null);
   }
 
-  static RepositoryListResult createOnProgress() {
+  static RepositoryListResult onProgress() {
     return new RepositoryListResult(Collections.emptyList(), IN_PROGRESS, null);
   }
 
-  static RepositoryListResult createOnError(Throwable throwable) {
+  static RepositoryListResult onError(Throwable throwable) {
     return new RepositoryListResult(Collections.emptyList(), FAILED, throwable);
   }
 

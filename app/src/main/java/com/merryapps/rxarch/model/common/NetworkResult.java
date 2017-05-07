@@ -42,27 +42,27 @@ public class NetworkResult<T> implements Result<T,NetworkResult.State> {
     return new NetworkResult<>(data, state, throwable);
   }
 
-  public static <T> NetworkResult<T> createOnSuccessful(T data) {
+  public static <T> NetworkResult<T> onSuccess(T data) {
     return new NetworkResult<>(data, SUCCESSFUL, null);
   }
 
-  public static <T> NetworkResult<T> createInProgress(T data) {
+  public static <T> NetworkResult<T> onInProgress(T data) {
     return new NetworkResult<>(data, IN_PROGRESS, null);
   }
 
-  @SuppressWarnings("unchecked") public static <T> NetworkResult<T> createInProgress() {
+  @SuppressWarnings("unchecked") public static <T> NetworkResult<T> onInProgress() {
     return (NetworkResult<T>) new NetworkResult(Collections.emptyList(), IN_PROGRESS, null);
   }
 
-  public static <T> NetworkResult<T> createOnRetrying(T data) {
+  public static <T> NetworkResult<T> onRetrying(T data) {
     return new NetworkResult<>(data, RETRYING, null);
   }
 
-  @SuppressWarnings("unchecked") public static <T> NetworkResult<T> createOnRetrying() {
+  @SuppressWarnings("unchecked") public static <T> NetworkResult<T> onRetrying() {
     return (NetworkResult<T>) new NetworkResult<>(Collections.emptyList(), RETRYING, null);
   }
 
-  @SuppressWarnings("unchecked") public static <T> NetworkResult<T> createOnError(Throwable throwable) {
+  @SuppressWarnings("unchecked") public static <T> NetworkResult<T> onError(Throwable throwable) {
     return (NetworkResult<T>) new NetworkResult<>(Collections.emptyList(), FAILED, throwable);
   }
 
