@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.merryapps.rxarch.R;
-import com.merryapps.rxarch.model.repositories.RepositorySearchAction;
 import com.merryapps.rxarch.model.repositories.RepositoryManager;
+import com.merryapps.rxarch.model.repositories.RepositorySearchAction;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -43,13 +43,8 @@ public class RepositoryListFragment extends Fragment {
     initVariables();
 
     loadData();
-    //test();
 
     return parentView;
-  }
-
-  private void test() {
-    new RepositoryManager().networkResult("retrofit");
   }
 
   private void initVariables() {
@@ -64,10 +59,11 @@ public class RepositoryListFragment extends Fragment {
         .compose(repositoryManager.repositories())
         .scan(RepositoryListUiResult.createIdle(Collections.emptyList()), (ignored, result) -> {
           switch (result.state()) {
-            case IN_PROGRESS: return RepositoryListUiResult.onInProgress();
-            case SUCCESSFUL:  return RepositoryListUiResult.onSuccess(result.data());
-            case FAILED:      return RepositoryListUiResult.onError(result.error());
-            default:          throw new AssertionError("Unknown state:" + result.state());
+            case RATE_LIMIT_ERROR:return RepositoryListUiResult.onError(new IllegalStateException("rate limited"));
+            case IN_PROGRESS:     return RepositoryListUiResult.onInProgress();
+            case SUCCESSFUL:      return RepositoryListUiResult.onSuccess(result.data());
+            case FAILED:          return RepositoryListUiResult.onError(result.error());
+            default:              throw new AssertionError("Unknown state:" + result.state());
           }
         })
         .observeOn(AndroidSchedulers.mainThread())

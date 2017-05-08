@@ -1,12 +1,12 @@
-package com.merryapps.rxarch.model.common;
+package com.merryapps.rxarch.model.network;
 
 import com.merryapps.rxarch.model.core.Result;
 import java.util.Collections;
 
-import static com.merryapps.rxarch.model.common.NetworkResult.State.FAILED;
-import static com.merryapps.rxarch.model.common.NetworkResult.State.IN_PROGRESS;
-import static com.merryapps.rxarch.model.common.NetworkResult.State.RETRYING;
-import static com.merryapps.rxarch.model.common.NetworkResult.State.SUCCESSFUL;
+import static com.merryapps.rxarch.model.network.NetworkResult.State.FAILED;
+import static com.merryapps.rxarch.model.network.NetworkResult.State.IN_PROGRESS;
+import static com.merryapps.rxarch.model.network.NetworkResult.State.RETRYING;
+import static com.merryapps.rxarch.model.network.NetworkResult.State.SUCCESSFUL;
 
 /**
  * @author Pravin Sonawane
