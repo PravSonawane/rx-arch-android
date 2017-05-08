@@ -4,8 +4,10 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
+ * Represents a repository item.
  * @author Pravin Sonawane
  * @since 0.0.1
+ * @see SearchResponseRaw
  */
 class ItemRaw {
 

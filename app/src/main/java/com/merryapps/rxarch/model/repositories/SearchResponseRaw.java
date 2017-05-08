@@ -5,8 +5,10 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 /**
+ * Represents a search response received from the network.
  * @author Pravin Sonawane
  * @since 0.0.1
+ * @see GithubRepositoryService
  */
 class SearchResponseRaw {
 

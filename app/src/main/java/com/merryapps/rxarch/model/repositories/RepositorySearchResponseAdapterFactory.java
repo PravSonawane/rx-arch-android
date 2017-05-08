@@ -13,10 +13,18 @@ import retrofit2.CallAdapter;
 import retrofit2.Retrofit;
 
 /**
+ * A custom {@link CallAdapter.Factory} to wrap retrofit responses
+ * into the return types of {@link GithubRepositoryService} methods.
+ *
+ * <p>
+ *   The highlight of using this factory is that different types of responses like the data and
+ *   errors (represented by {@link SearchResponseRaw} and {@link RateLimitErrorRaw}) can be
+ *   wrapped in a single type viz., {@link SearchResponse}
+ * </p>
  * @author Pravin Sonawane
  * @since 0.0.1
+ * @see GithubRepositoryService
  */
-
 class RepositorySearchResponseAdapterFactory extends CallAdapter.Factory {
 
   @Override

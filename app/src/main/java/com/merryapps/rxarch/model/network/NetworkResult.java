@@ -1,7 +1,7 @@
 package com.merryapps.rxarch.model.network;
 
 import com.merryapps.rxarch.model.core.Result;
-import java.util.Collections;
+import io.reactivex.Observable;
 
 import static com.merryapps.rxarch.model.network.NetworkResult.State.FAILED;
 import static com.merryapps.rxarch.model.network.NetworkResult.State.IN_PROGRESS;
@@ -9,8 +9,20 @@ import static com.merryapps.rxarch.model.network.NetworkResult.State.RETRYING;
 import static com.merryapps.rxarch.model.network.NetworkResult.State.SUCCESSFUL;
 
 /**
+ * Represents the result of a network operation. The characteristic of a network operation are
+ * the states (represented by {@link State}) associated with it.
+ *
+ * <p>
+ *   Utility methods of {@link NetworkUtils} can be used to create {@link NetworkResult}s as a
+ *   part of {@link Observable} streams.
+ * </p>
+ *
+ * <p>
+ *   T - The type of the retrofit response being wrapped.
+ * </p>
  * @author Pravin Sonawane
  * @since 0.0.1
+ * @see NetworkUtils
  */
 
 public class NetworkResult<T> implements Result<T,NetworkResult.State> {
@@ -50,20 +62,20 @@ public class NetworkResult<T> implements Result<T,NetworkResult.State> {
     return new NetworkResult<>(data, IN_PROGRESS, null);
   }
 
-  @SuppressWarnings("unchecked") public static <T> NetworkResult<T> onInProgress() {
-    return (NetworkResult<T>) new NetworkResult(Collections.emptyList(), IN_PROGRESS, null);
+  public static <T> NetworkResult<T> onInProgress() {
+    return new NetworkResult<>(null, IN_PROGRESS, null);
   }
 
   public static <T> NetworkResult<T> onRetrying(T data) {
     return new NetworkResult<>(data, RETRYING, null);
   }
 
-  @SuppressWarnings("unchecked") public static <T> NetworkResult<T> onRetrying() {
-    return (NetworkResult<T>) new NetworkResult<>(Collections.emptyList(), RETRYING, null);
+  public static <T> NetworkResult<T> onRetrying() {
+    return new NetworkResult<>(null, RETRYING, null);
   }
 
-  @SuppressWarnings("unchecked") public static <T> NetworkResult<T> onError(Throwable throwable) {
-    return (NetworkResult<T>) new NetworkResult<>(Collections.emptyList(), FAILED, throwable);
+  public static <T> NetworkResult<T> onError(Throwable throwable) {
+    return new NetworkResult<>(null, FAILED, throwable);
   }
 
   public enum State {
