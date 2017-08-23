@@ -1,1 +1,2 @@
-Rx Arch Android
+Rx Arch Android.
+Usage of RxJava2.
